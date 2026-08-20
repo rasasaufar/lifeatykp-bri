@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '../app.css';
-	import { page } from '$app/stores';
+	import { page, navigating } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import Toast from '$lib/components/Toast.svelte';
 	import {
@@ -39,6 +39,21 @@
 <svelte:window on:keydown={handleKeydown} />
 
 <Toast />
+
+{#if $navigating}
+	<div class="fixed top-0 left-0 w-full h-1 bg-indigo-100 z-[100]">
+		<div class="h-full bg-indigo-600 animate-pulse transition-all duration-300 w-full origin-left" style="animation: progress 2s infinite ease-in-out;"></div>
+	</div>
+{/if}
+
+<style>
+	@keyframes progress {
+		0% { transform: scaleX(0); transform-origin: left; }
+		50% { transform: scaleX(1); transform-origin: left; }
+		50.1% { transform: scaleX(1); transform-origin: right; }
+		100% { transform: scaleX(0); transform-origin: right; }
+	}
+</style>
 
 <div class="min-h-screen flex">
 	<!-- Mobile overlay -->
