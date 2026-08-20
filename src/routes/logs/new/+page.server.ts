@@ -15,6 +15,7 @@ export const actions: Actions = {
 
 		const tanggal = formData.get('tanggal')?.toString();
 		const jam_mulai = formData.get('jam_mulai')?.toString();
+		const jam_selesai = formData.get('jam_selesai')?.toString() || null;
 		const kategori = formData.get('kategori')?.toString();
 		const deskripsi = formData.get('deskripsi')?.toString()?.trim();
 		const status = formData.get('status')?.toString();
@@ -32,6 +33,7 @@ export const actions: Actions = {
 				data: {
 					tanggal: new Date(tanggal),
 					jam_mulai,
+					jam_selesai,
 					kategori,
 					deskripsi,
 					status,
