@@ -73,10 +73,10 @@ export function getStatusColor(status: string): { bg: string; text: string } {
  */
 export function getGreeting(): string {
 	const hour = new Date().getHours();
-	if (hour < 11) return 'Selamat Pagi';
-	if (hour < 15) return 'Selamat Siang';
-	if (hour < 18) return 'Selamat Sore';
-	return 'Selamat Malam';
+	if (hour < 11) return 'Selamat Pagi Acaszzz';
+	if (hour < 15) return 'Selamat Siang Acaszzz';
+	if (hour < 18) return 'Selamat Sore Acaszzz';
+	return 'Selamat Malam Acaszzz';
 }
 
 /**
