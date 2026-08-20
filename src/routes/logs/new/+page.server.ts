@@ -41,6 +41,7 @@ export const actions: Actions = {
 				}
 			});
 		} catch (e) {
+			console.error('🔥 Prisma Error:', e);
 			return fail(500, {
 				error: 'Gagal menyimpan log',
 				tanggal, jam_mulai, jam_selesai, kategori, deskripsi, status, catatan
