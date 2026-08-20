@@ -17,5 +17,6 @@ jobs:
           script: |
             cd /home/project-web-acas/lifeatykp-bri
             git pull origin main
+            cp prisma/schema.prisma /var/lib/docker/volumes/project-web-acas_lifeatykp-db/_data/schema.prisma
             cd /home/project-web-acas
-            docker compose up -d --build lifeatykp-bri
+            docker compose up -d --build --force-recreate lifeatykp-bri
