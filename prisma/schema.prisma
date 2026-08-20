@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model DailyLog {
+  id          Int      @id @default(autoincrement())
+  tanggal     DateTime
+  jam_mulai   String
+  jam_selesai String
+  kategori    String
+  deskripsi   String
+  status      String
+  catatan     String?
+  createdAt   DateTime @default(now())
+}
+
+model Kategori {
+  id    Int    @id @default(autoincrement())
+  nama  String @unique
+  warna String
+}
