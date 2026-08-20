@@ -127,7 +127,7 @@
 	</div>
 
 	<!-- Stat Cards -->
-	<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+	<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 		<div class="card p-5">
 			<div class="flex items-center justify-between">
 				<div>
@@ -148,18 +148,6 @@
 				</div>
 				<div class="w-11 h-11 rounded-xl bg-emerald-50 flex items-center justify-center">
 					<TrendingUp size={20} class="text-emerald-600" />
-				</div>
-			</div>
-		</div>
-
-		<div class="card p-5">
-			<div class="flex items-center justify-between">
-				<div>
-					<p class="text-xs font-medium text-slate-400 uppercase tracking-wide">Total Durasi Minggu</p>
-					<p class="text-3xl font-bold text-slate-800 mt-1">{data.weekDuration}</p>
-				</div>
-				<div class="w-11 h-11 rounded-xl bg-amber-50 flex items-center justify-center">
-					<Clock size={20} class="text-amber-600" />
 				</div>
 			</div>
 		</div>

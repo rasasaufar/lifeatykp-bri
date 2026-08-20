@@ -9,8 +9,7 @@
 		List,
 		Tag,
 		Menu,
-		X,
-		BookOpen
+		X
 	} from 'lucide-svelte';
 
 	let sidebarOpen = false;
@@ -58,13 +57,11 @@
 			{sidebarOpen ? 'translate-x-0' : '-translate-x-full'}"
 	>
 		<!-- Logo -->
-		<div class="flex items-center gap-3 px-6 h-16 border-b border-gray-100">
-			<div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-				<BookOpen size={16} class="text-white" />
-			</div>
-			<div>
-				<h1 class="text-sm font-bold text-slate-800">Work Log</h1>
-				<p class="text-[10px] text-slate-400">Personal Daily Tracker</p>
+		<div class="px-5 pt-5 pb-4 border-b border-gray-100">
+			<div class="bg-gradient-to-br from-indigo-50 via-blue-50 to-orange-50 rounded-xl p-4 text-center">
+				<img src="/logo-bri-ykp.png" alt="BRI YKP" class="h-8 object-contain mx-auto" />
+				<p class="text-[13px] font-bold bg-gradient-to-r from-blue-700 to-indigo-600 bg-clip-text text-transparent mt-2.5 tracking-tight">#lifeatykpbri</p>
+				<p class="text-[10px] text-slate-400 mt-0.5 tracking-wide">Personal Daily Tracker</p>
 			</div>
 		</div>
 
@@ -105,7 +102,7 @@
 						<Menu size={20} class="text-slate-600" />
 					{/if}
 				</button>
-				<span class="text-sm font-semibold text-slate-700">Work Log</span>
+				<span class="text-sm font-semibold text-slate-700">#lifeatykpbri</span>
 				<div class="w-9"></div>
 			</div>
 		</header>
