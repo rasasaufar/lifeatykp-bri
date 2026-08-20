@@ -1,3 +1,8 @@
+<script context="module">
+	import { Chart, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement } from 'chart.js';
+	Chart.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
+</script>
+
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
@@ -11,9 +16,6 @@
 	} from 'lucide-svelte';
 	import StatusBadge from '$lib/components/StatusBadge.svelte';
 	import CalendarWidget from '$lib/components/CalendarWidget.svelte';
-	import { Chart, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement } from 'chart.js';
-
-	Chart.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
 
 	export let data;
 
@@ -35,79 +37,86 @@
 	};
 
 	onMount(() => {
-		// Pie chart — by kategori
-		if (pieCanvas && data.kategoriStats.length > 0) {
-			pieChart = new Chart(pieCanvas, {
-				type: 'doughnut',
-				data: {
-					labels: data.kategoriStats.map((k: any) => k.nama),
-					datasets: [{
-						data: data.kategoriStats.map((k: any) => k.count),
-						backgroundColor: data.kategoriStats.map((k: any) => k.warna + 'cc'),
-						borderColor: data.kategoriStats.map((k: any) => k.warna),
-						borderWidth: 2
-					}]
-				},
-				options: {
-					responsive: true,
-					maintainAspectRatio: false,
-					plugins: {
-						legend: {
-							position: 'bottom',
-							labels: {
-								padding: 16,
-								usePointStyle: true,
-								pointStyleWidth: 8,
-								font: { family: 'Inter', size: 12 }
-							}
-						}
-					},
-					cutout: '65%'
-				}
-			});
-		}
+		let animationFrameId: number;
 
-		// Bar chart — by status
-		if (barCanvas && data.statusStats.length > 0) {
-			barChart = new Chart(barCanvas, {
-				type: 'bar',
-				data: {
-					labels: data.statusStats.map((s: any) => s.status),
-					datasets: [{
-						label: 'Jumlah',
-						data: data.statusStats.map((s: any) => s.count),
-						backgroundColor: data.statusStats.map((s: any) => statusColors[s.status] || 'rgba(107,114,128,0.7)'),
-						borderColor: data.statusStats.map((s: any) => statusBorderColors[s.status] || '#6b7280'),
-						borderWidth: 2,
-						borderRadius: 8,
-						barPercentage: 0.6
-					}]
-				},
-				options: {
-					responsive: true,
-					maintainAspectRatio: false,
-					plugins: {
-						legend: { display: false }
+		animationFrameId = requestAnimationFrame(() => {
+			// Pie chart — by kategori
+			if (pieCanvas && data.kategoriStats.length > 0) {
+				pieChart = new Chart(pieCanvas, {
+					type: 'doughnut',
+					data: {
+						labels: data.kategoriStats.map((k: any) => k.nama),
+						datasets: [{
+							data: data.kategoriStats.map((k: any) => k.count),
+							backgroundColor: data.kategoriStats.map((k: any) => k.warna + 'cc'),
+							borderColor: data.kategoriStats.map((k: any) => k.warna),
+							borderWidth: 2
+						}]
 					},
-					scales: {
-						y: {
-							beginAtZero: true,
-							ticks: {
-								stepSize: 1,
-								font: { family: 'Inter', size: 11 }
-							},
-							grid: { color: 'rgba(0,0,0,0.04)' }
+					options: {
+						responsive: true,
+						maintainAspectRatio: false,
+						plugins: {
+							legend: {
+								position: 'bottom',
+								labels: {
+									padding: 16,
+									usePointStyle: true,
+									pointStyleWidth: 8,
+									font: { family: 'Inter', size: 12 }
+								}
+							}
 						},
-						x: {
-							ticks: { font: { family: 'Inter', size: 12 } },
-							grid: { display: false }
-						}
+						cutout: '65%',
+						animation: false
 					}
-				}
-			});
-		}
+				});
+			}
+
+			// Bar chart — by status
+			if (barCanvas && data.statusStats.length > 0) {
+				barChart = new Chart(barCanvas, {
+					type: 'bar',
+					data: {
+						labels: data.statusStats.map((s: any) => s.status),
+						datasets: [{
+							label: 'Jumlah',
+							data: data.statusStats.map((s: any) => s.count),
+							backgroundColor: data.statusStats.map((s: any) => statusColors[s.status] || 'rgba(107,114,128,0.7)'),
+							borderColor: data.statusStats.map((s: any) => statusBorderColors[s.status] || '#6b7280'),
+							borderWidth: 2,
+							borderRadius: 8,
+							barPercentage: 0.6
+						}]
+					},
+					options: {
+						responsive: true,
+						maintainAspectRatio: false,
+						plugins: {
+							legend: { display: false }
+						},
+						scales: {
+							y: {
+								beginAtZero: true,
+								ticks: {
+									stepSize: 1,
+									font: { family: 'Inter', size: 11 }
+								},
+								grid: { color: 'rgba(0,0,0,0.04)' }
+							},
+							x: {
+								ticks: { font: { family: 'Inter', size: 12 } },
+								grid: { display: false }
+							}
+						},
+						animation: false
+					}
+				});
+			}
+		});
 
 		return () => {
+			if (animationFrameId) cancelAnimationFrame(animationFrameId);
 			pieChart?.destroy();
 			barChart?.destroy();
 		};
@@ -209,7 +218,7 @@
 			{#if data.kategoriStats.length > 0}
 				<div class="card p-4">
 					<h3 class="text-sm font-semibold text-slate-700 mb-3">Per Kategori (Minggu Ini)</h3>
-					<div class="h-48">
+					<div class="relative w-full h-48">
 						<canvas bind:this={pieCanvas}></canvas>
 					</div>
 				</div>
@@ -219,7 +228,7 @@
 			{#if data.statusStats.length > 0}
 				<div class="card p-4">
 					<h3 class="text-sm font-semibold text-slate-700 mb-3">Per Status (Minggu Ini)</h3>
-					<div class="h-48">
+					<div class="relative w-full h-48">
 						<canvas bind:this={barCanvas}></canvas>
 					</div>
 				</div>

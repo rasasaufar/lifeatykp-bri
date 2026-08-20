@@ -7,6 +7,8 @@
 	export let data;
 	export let form;
 
+	let isSubmitting = false;
+
 	let tanggal = form?.tanggal || new Date().toISOString().split('T')[0];
 	let jam_mulai = form?.jam_mulai || '08:00';
 	let kategori = form?.kategori || (data.kategoriList[0]?.nama || '');
@@ -28,24 +30,24 @@
 </svelte:head>
 
 <div class="max-w-2xl space-y-6">
-	<div class="flex items-center gap-3">
-		<a href="/logs" class="p-2 hover:bg-gray-100 rounded-xl transition-colors">
-			<ArrowLeft size={18} class="text-slate-500" />
+	<!-- Header -->
+	<div class="mb-6">
+		<a href="/logs" class="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-indigo-600 transition-colors mb-4">
+			<ArrowLeft size={16} />
+			Kembali
 		</a>
-		<div>
-			<h1 class="text-2xl font-bold text-slate-800">Tambah Log Baru</h1>
-			<p class="text-sm text-slate-500 mt-0.5">Catat aktivitas pekerjaan Anda.</p>
-		</div>
+		<h1 class="text-2xl font-bold text-slate-800">Tambah Log Baru</h1>
+		<p class="text-sm text-slate-500 mt-1">Catat aktivitas pekerjaan Anda.</p>
 	</div>
 
+	<!-- Form -->
 	<form
 		method="POST"
 		use:enhance={() => {
-			return async ({ result, update }) => {
-				if (result.type === 'redirect') {
-					handleSuccess();
-				}
+			isSubmitting = true;
+			return async ({ update }) => {
 				await update();
+				isSubmitting = false;
 			};
 		}}
 		class="card p-6 space-y-5"
@@ -106,25 +108,31 @@
 		<!-- Notes -->
 		<div>
 			<label for="catatan" class="label-text">
-				Catatan
-				<span class="text-slate-400 font-normal">(opsional)</span>
+				Catatan <span class="text-slate-400 font-normal">(opsional)</span>
 			</label>
 			<textarea
 				id="catatan"
 				name="catatan"
 				bind:value={catatan}
-				placeholder="Detail tambahan, catatan, referensi..."
 				rows="3"
+				placeholder="Detail tambahan, catatan, referensi..."
 				class="input-field resize-none"
 			></textarea>
 		</div>
 
 		<!-- Actions -->
 		<div class="flex justify-end gap-3 pt-2">
-			<a href="/logs" class="btn-secondary">Batal</a>
-			<button type="submit" class="btn-primary">
-				<Save size={16} />
-				Simpan Log
+			<a href="/logs" class="btn-secondary" class:opacity-50={isSubmitting}>
+				Batal
+			</a>
+			<button type="submit" class="btn-primary min-w-[120px] justify-center" disabled={isSubmitting}>
+				{#if isSubmitting}
+					<span class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+					Menyimpan...
+				{:else}
+					<Save size={16} />
+					Simpan Log
+				{/if}
 			</button>
 		</div>
 	</form>
