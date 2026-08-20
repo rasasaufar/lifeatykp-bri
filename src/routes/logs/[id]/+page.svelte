@@ -5,7 +5,7 @@
 	import StatusBadge from '$lib/components/StatusBadge.svelte';
 	import ConfirmDialog from '$lib/components/ConfirmDialog.svelte';
 	import { addToast } from '$lib/stores/toast';
-	import { formatDate, calculateDuration, formatDuration, STATUS_OPTIONS } from '$lib/utils';
+	import { formatDate, STATUS_OPTIONS } from '$lib/utils';
 
 	export let data;
 	export let form;
@@ -16,14 +16,10 @@
 	// Form state
 	let tanggal = data.log.tanggal;
 	let jam_mulai = data.log.jam_mulai;
-	let jam_selesai = data.log.jam_selesai;
 	let kategori = data.log.kategori;
 	let deskripsi = data.log.deskripsi;
 	let status = data.log.status;
 	let catatan = data.log.catatan || '';
-
-	$: durasi = calculateDuration(jam_mulai, jam_selesai);
-	$: durasiFormatted = durasi > 0 ? formatDuration(durasi) : 'Invalid';
 
 	$: if (form?.success) {
 		addToast(form.message || 'Berhasil!', 'success');
@@ -42,7 +38,6 @@
 		// Reset to original values
 		tanggal = data.log.tanggal;
 		jam_mulai = data.log.jam_mulai;
-		jam_selesai = data.log.jam_selesai;
 		kategori = data.log.kategori;
 		deskripsi = data.log.deskripsi;
 		status = data.log.status;
@@ -104,25 +99,15 @@
 			use:enhance
 			class="card p-6 space-y-5"
 		>
-			<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+			<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 				<div>
 					<label for="tanggal" class="label-text">Tanggal</label>
 					<input type="date" id="tanggal" name="tanggal" bind:value={tanggal} class="input-field" required />
 				</div>
 				<div>
-					<label for="jam_mulai" class="label-text">Jam Mulai</label>
+					<label for="jam_mulai" class="label-text">Waktu Mulai</label>
 					<input type="time" id="jam_mulai" name="jam_mulai" bind:value={jam_mulai} class="input-field" required />
 				</div>
-				<div>
-					<label for="jam_selesai" class="label-text">Jam Selesai</label>
-					<input type="time" id="jam_selesai" name="jam_selesai" bind:value={jam_selesai} class="input-field" required />
-				</div>
-			</div>
-
-			<div class="flex items-center gap-2 px-3 py-2 bg-slate-50 rounded-xl">
-				<Clock size={14} class="text-slate-400" />
-				<span class="text-sm text-slate-500">Durasi:</span>
-				<span class="text-sm font-semibold {durasi > 0 ? 'text-indigo-600' : 'text-rose-500'}">{durasiFormatted}</span>
 			</div>
 
 			<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -187,24 +172,14 @@
 				</div>
 			</div>
 
-			<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+			<div class="grid grid-cols-2 sm:grid-cols-2 gap-4">
 				<div class="bg-gray-50 rounded-xl p-3">
 					<p class="text-xs text-slate-400 mb-1">Tanggal</p>
 					<p class="text-sm font-medium text-slate-700">{formatDate(data.log.tanggal)}</p>
 				</div>
 				<div class="bg-gray-50 rounded-xl p-3">
-					<p class="text-xs text-slate-400 mb-1">Jam Mulai</p>
+					<p class="text-xs text-slate-400 mb-1">Waktu Mulai</p>
 					<p class="text-sm font-medium text-slate-700">{data.log.jam_mulai}</p>
-				</div>
-				<div class="bg-gray-50 rounded-xl p-3">
-					<p class="text-xs text-slate-400 mb-1">Jam Selesai</p>
-					<p class="text-sm font-medium text-slate-700">{data.log.jam_selesai}</p>
-				</div>
-				<div class="bg-gray-50 rounded-xl p-3">
-					<p class="text-xs text-slate-400 mb-1">Durasi</p>
-					<p class="text-sm font-semibold text-indigo-600">
-						{formatDuration(calculateDuration(data.log.jam_mulai, data.log.jam_selesai))}
-					</p>
 				</div>
 			</div>
 

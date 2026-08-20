@@ -2,21 +2,17 @@
 	import { enhance } from '$app/forms';
 	import { ArrowLeft, Save, Clock } from 'lucide-svelte';
 	import { addToast } from '$lib/stores/toast';
-	import { calculateDuration, formatDuration, STATUS_OPTIONS } from '$lib/utils';
+	import { STATUS_OPTIONS } from '$lib/utils';
 
 	export let data;
 	export let form;
 
 	let tanggal = form?.tanggal || new Date().toISOString().split('T')[0];
 	let jam_mulai = form?.jam_mulai || '08:00';
-	let jam_selesai = form?.jam_selesai || '09:00';
 	let kategori = form?.kategori || (data.kategoriList[0]?.nama || '');
 	let deskripsi = form?.deskripsi || '';
 	let status = form?.status || 'Done';
 	let catatan = form?.catatan || '';
-
-	$: durasi = calculateDuration(jam_mulai, jam_selesai);
-	$: durasiFormatted = durasi > 0 ? formatDuration(durasi) : 'Invalid';
 
 	$: if (form?.error) {
 		addToast(form.error, 'error');
@@ -55,26 +51,15 @@
 		class="card p-6 space-y-5"
 	>
 		<!-- Date & Time -->
-		<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+		<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 			<div>
 				<label for="tanggal" class="label-text">Tanggal</label>
 				<input type="date" id="tanggal" name="tanggal" bind:value={tanggal} class="input-field" required />
 			</div>
 			<div>
-				<label for="jam_mulai" class="label-text">Jam Mulai</label>
+				<label for="jam_mulai" class="label-text">Waktu Mulai</label>
 				<input type="time" id="jam_mulai" name="jam_mulai" bind:value={jam_mulai} class="input-field" required />
 			</div>
-			<div>
-				<label for="jam_selesai" class="label-text">Jam Selesai</label>
-				<input type="time" id="jam_selesai" name="jam_selesai" bind:value={jam_selesai} class="input-field" required />
-			</div>
-		</div>
-
-		<!-- Duration Preview -->
-		<div class="flex items-center gap-2 px-3 py-2 bg-slate-50 rounded-xl">
-			<Clock size={14} class="text-slate-400" />
-			<span class="text-sm text-slate-500">Durasi:</span>
-			<span class="text-sm font-semibold {durasi > 0 ? 'text-indigo-600' : 'text-rose-500'}">{durasiFormatted}</span>
 		</div>
 
 		<!-- Category & Status -->

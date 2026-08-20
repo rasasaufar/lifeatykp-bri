@@ -31,14 +31,13 @@ export const GET: RequestHandler = async ({ url }) => {
 	});
 
 	// Build CSV
-	const headers = ['Tanggal', 'Jam Mulai', 'Jam Selesai', 'Kategori', 'Deskripsi', 'Status', 'Catatan'];
+	const headers = ['Tanggal', 'Jam Mulai', 'Kategori', 'Deskripsi', 'Status', 'Catatan'];
 
 	const rows = logs.map((log) => {
 		const tanggal = new Date(log.tanggal).toLocaleDateString('id-ID');
 		return [
 			tanggal,
 			log.jam_mulai,
-			log.jam_selesai,
 			log.kategori,
 			`"${(log.deskripsi || '').replace(/"/g, '""')}"`,
 			log.status,

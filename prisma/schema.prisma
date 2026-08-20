@@ -11,7 +11,7 @@ model DailyLog {
   id          Int      @id @default(autoincrement())
   tanggal     DateTime
   jam_mulai   String
-  jam_selesai String
+  jam_selesai String?
   kategori    String
   deskripsi   String
   status      String

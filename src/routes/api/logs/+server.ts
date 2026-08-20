@@ -49,9 +49,9 @@ export const GET: RequestHandler = async ({ url }) => {
 export const POST: RequestHandler = async ({ request }) => {
 	try {
 		const body = await request.json();
-		const { tanggal, jam_mulai, jam_selesai, kategori, deskripsi, status, catatan } = body;
+		const { tanggal, jam_mulai, kategori, deskripsi, status, catatan } = body;
 
-		if (!tanggal || !jam_mulai || !jam_selesai || !kategori || !deskripsi || !status) {
+		if (!tanggal || !jam_mulai || !kategori || !deskripsi || !status) {
 			return json({ error: 'Semua field wajib diisi' }, { status: 400 });
 		}
 
@@ -59,7 +59,6 @@ export const POST: RequestHandler = async ({ request }) => {
 			data: {
 				tanggal: new Date(tanggal),
 				jam_mulai,
-				jam_selesai,
 				kategori,
 				deskripsi,
 				status,

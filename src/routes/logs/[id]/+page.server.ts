@@ -34,13 +34,12 @@ export const actions: Actions = {
 
 		const tanggal = formData.get('tanggal')?.toString();
 		const jam_mulai = formData.get('jam_mulai')?.toString();
-		const jam_selesai = formData.get('jam_selesai')?.toString();
 		const kategori = formData.get('kategori')?.toString();
 		const deskripsi = formData.get('deskripsi')?.toString()?.trim();
 		const status = formData.get('status')?.toString();
 		const catatan = formData.get('catatan')?.toString()?.trim() || null;
 
-		if (!tanggal || !jam_mulai || !jam_selesai || !kategori || !deskripsi || !status) {
+		if (!tanggal || !jam_mulai || !kategori || !deskripsi || !status) {
 			return fail(400, { error: 'Semua field wajib diisi' });
 		}
 
@@ -50,7 +49,6 @@ export const actions: Actions = {
 				data: {
 					tanggal: new Date(tanggal),
 					jam_mulai,
-					jam_selesai,
 					kategori,
 					deskripsi,
 					status,

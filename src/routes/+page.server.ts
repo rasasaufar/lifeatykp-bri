@@ -1,5 +1,5 @@
 import { prisma } from '$lib/server/prisma';
-import { getGreeting, getTodayRange, getWeekRange, calculateDuration, formatDuration } from '$lib/utils';
+import { getGreeting, getTodayRange, getWeekRange } from '$lib/utils';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {
@@ -19,13 +19,6 @@ export const load: PageServerLoad = async () => {
 		where: {
 			tanggal: { gte: weekStart, lte: weekEnd }
 		}
-	});
-
-	// Calculate total duration this week
-	let totalWeekMinutes = 0;
-	weekLogs.forEach((log) => {
-		const dur = calculateDuration(log.jam_mulai, log.jam_selesai);
-		if (dur > 0) totalWeekMinutes += dur;
 	});
 
 	// Category stats for pie chart
@@ -77,7 +70,6 @@ export const load: PageServerLoad = async () => {
 		})),
 		todayTotal: todayLogs.length,
 		weekTotal: weekLogs.length,
-		weekDuration: formatDuration(totalWeekMinutes),
 		kategoriStats,
 		statusStats,
 		activeDays

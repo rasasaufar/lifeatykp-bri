@@ -11,7 +11,6 @@
 	} from 'lucide-svelte';
 	import StatusBadge from '$lib/components/StatusBadge.svelte';
 	import CalendarWidget from '$lib/components/CalendarWidget.svelte';
-	import { calculateDuration, formatDuration } from '$lib/utils';
 	import { Chart, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement } from 'chart.js';
 
 	Chart.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
@@ -181,15 +180,11 @@
 						<a href="/logs/{log.id}" class="card p-4 flex items-center gap-4 hover:shadow-md transition-shadow duration-200 group block">
 							<div class="flex-shrink-0 text-center">
 								<p class="text-xs text-slate-400">{log.jam_mulai}</p>
-								<p class="text-[10px] text-slate-300">—</p>
-								<p class="text-xs text-slate-400">{log.jam_selesai}</p>
 							</div>
 							<div class="flex-1 min-w-0">
 								<p class="text-sm font-medium text-slate-700 truncate group-hover:text-indigo-600 transition-colors">{log.deskripsi}</p>
 								<div class="flex items-center gap-2 mt-1">
 									<span class="text-xs text-slate-400">{log.kategori}</span>
-									<span class="text-slate-200">·</span>
-									<span class="text-xs text-slate-400">{formatDuration(calculateDuration(log.jam_mulai, log.jam_selesai))}</span>
 								</div>
 							</div>
 							<StatusBadge status={log.status} />

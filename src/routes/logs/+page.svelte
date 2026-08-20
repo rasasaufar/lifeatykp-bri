@@ -12,7 +12,7 @@
 		X
 	} from 'lucide-svelte';
 	import StatusBadge from '$lib/components/StatusBadge.svelte';
-	import { formatDate, formatDateShort, calculateDuration, formatDuration, STATUS_OPTIONS } from '$lib/utils';
+	import { formatDate, formatDateShort, STATUS_OPTIONS } from '$lib/utils';
 
 	export let data;
 
@@ -157,10 +157,9 @@
 				<thead>
 					<tr class="border-b border-gray-100 bg-gray-50/50">
 						<th class="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-5 py-3">Tanggal</th>
-						<th class="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-5 py-3">Waktu</th>
+						<th class="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-5 py-3">Waktu Mulai</th>
 						<th class="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-5 py-3">Deskripsi</th>
 						<th class="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-5 py-3">Kategori</th>
-						<th class="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-5 py-3">Durasi</th>
 						<th class="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-5 py-3">Status</th>
 						<th class="px-5 py-3"></th>
 					</tr>
@@ -169,10 +168,9 @@
 					{#each data.logs as log}
 						<tr class="hover:bg-gray-50/50 transition-colors group">
 							<td class="px-5 py-3.5 text-sm text-slate-600 whitespace-nowrap">{formatDateShort(log.tanggal)}</td>
-							<td class="px-5 py-3.5 text-sm text-slate-500 whitespace-nowrap">{log.jam_mulai} – {log.jam_selesai}</td>
+							<td class="px-5 py-3.5 text-sm text-slate-500 whitespace-nowrap">{log.jam_mulai}</td>
 							<td class="px-5 py-3.5 text-sm text-slate-700 font-medium max-w-xs truncate">{log.deskripsi}</td>
 							<td class="px-5 py-3.5 text-sm text-slate-500">{log.kategori}</td>
-							<td class="px-5 py-3.5 text-sm text-slate-500">{formatDuration(calculateDuration(log.jam_mulai, log.jam_selesai))}</td>
 							<td class="px-5 py-3.5"><StatusBadge status={log.status} /></td>
 							<td class="px-5 py-3.5">
 								<a href="/logs/{log.id}" class="text-slate-300 group-hover:text-indigo-500 transition-colors">
@@ -195,7 +193,7 @@
 							<div class="flex items-center gap-2 mt-1 text-xs text-slate-400">
 								<span>{formatDateShort(log.tanggal)}</span>
 								<span>·</span>
-								<span>{log.jam_mulai}–{log.jam_selesai}</span>
+								<span>{log.jam_mulai}</span>
 								<span>·</span>
 								<span>{log.kategori}</span>
 							</div>

@@ -18,14 +18,13 @@ export const PUT: RequestHandler = async ({ params, request }) => {
 
 	try {
 		const body = await request.json();
-		const { tanggal, jam_mulai, jam_selesai, kategori, deskripsi, status, catatan } = body;
+		const { tanggal, jam_mulai, kategori, deskripsi, status, catatan } = body;
 
 		const log = await prisma.dailyLog.update({
 			where: { id },
 			data: {
 				...(tanggal && { tanggal: new Date(tanggal) }),
 				...(jam_mulai && { jam_mulai }),
-				...(jam_selesai && { jam_selesai }),
 				...(kategori && { kategori }),
 				...(deskripsi && { deskripsi }),
 				...(status && { status }),
